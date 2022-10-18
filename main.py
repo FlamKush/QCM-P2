@@ -1,26 +1,5 @@
-
-def menu():
-    print("######################################")
-    print("Bienvenue dans le qcm ")
-    print("Pour acceder au cotation classique appuyer sur k")
-    print("Pour acceder a une cotation a points négatifs appuyer sur n")
-    print("######################################")
-    choice = input("=> ")
-
-    if choice == "k":
-        print("Vous aurez une cotation classique")
-    
-    elif choice == "n":
-        print("Vous aurez une cotation négatif")
-    
-    print("Vous êtes prêt ? y/n")
-    ready = input("=> ")
-
-    if ready.lower() == "y":
-        print("C'est parti")    
-menu()
-
-
+import time
+from menu import menu
 
 # ce que j'ai rajouté
 def build_questionnaire(filename):
@@ -67,18 +46,7 @@ def build_questionnaire(filename):
     if wording or choices:
         questions.append([wording, choices])
     return questions
-
-
-
-############################################################### Martin le crack
-
-def menu():
-    name = input("What's you're name?")
-    print(f"Hello, {name}!")
-    print("Let's start the Quizz.")
     
-
-
 def cotation1(list_of_answers):
     i = 0
     for answer in list_of_answers:
@@ -101,6 +69,23 @@ def cotation2(list_of_answers):
         elif answer == None:
             i+=0
     return i
+    
+def cotation3(list_of_answers, number_of_answers):
+    # on calcule l'esperance
+    esperancex = -(1/(len(number_of_answers) - 1)) 
+    i = 0
+    for answer in list_of_answers:
+        if answer == True:
+            i+=1
+        elif answer == False:
+            i = i + esperancex
+        elif answer == None:
+            i+=0
+    return i
+
+    
+
+    
 
 
 
@@ -142,71 +127,44 @@ def random_QCM():
 
 def Quizz():
     menu()
-    syst = input("Quel système de cotation voulez-vous utiliser ? 1, 2, 3 ?")
+    print("Wich cotation system you want to choose ? classic = 1, negative = 2, 3 ?")
+    syst = input("==> ")
     if syst == "1":
         a = 0
     elif syst == "2":
         a = 1
-    print("C'est parti, bonne chance !")
-    questions = random_QCM()
-    question_1 = questions[0][0]
-    question_2 = questions[1][0]
-    question_3 = questions[2][0]
+    elif syst == "3":
+        a = 2
+    print("Good luck !")
+    questionnaire = random_QCM()
+    # ici je stock toutes les questions
+    number_of_questions = []
+    for i in range(0, len(questionnaire)):
+        h = questionnaire[i][0]
+        number_of_questions.append(h)
     list_of_answers = []
-    
-    
-    answer1 = questions[0][1][0][0]
-    question_1 = input(question_1)
-    if question_1 == answer1:
-        print("Vous avez trouvé la bonne réponse !")
-        answer1 = True
-        list_of_answers.append(answer1)
-    else:
-        print("Ceci n'est pas la bonne réponse, il vous faut étudier plus !")
-        answer1 = False
-        list_of_answers.append(answer1)
-    print("Question suivante :")
-    
-    answer2 = questions[1][1][0][0]
-    question_2 = input(question_2)
-    if question_2 == answer2:
-        print("Vous avez trouvé la bonne réponse !")
-        answer2 = True
-        list_of_answers.append(answer2)
-    else:
-        print("Ceci n'est pas la bonne réponse, il vous faut étudier plus !")
-        answer2 = False
-        list_of_answers.append(answer1)
-    print("Question suivante :")
-    
-    answer3 = questions[2][1][0][0]
-    question_3 = input(question_3)
-    if question_3 == answer3:
-        print("Vous avez trouvé la bonne réponse !")
-        answer3 = True
-        list_of_answers.append(answer3)
-    else:
-        print("Ceci n'est pas la bonne réponse, il vous faut étudier plus !")
-        answer3 = False
-        list_of_answers.append(answer1)
+    place = 0
+    for i in number_of_questions:
+        question = input(i)
+        answer = questionnaire[place][1][0][0]
+        if question == answer:
+            print("Vous avez trouvé la bonne réponse !")
+            answer = True
+            list_of_answers.append(answer)
+        else:
+            print("Ceci n'est pas la bonne réponse, il vous faut étudier plus !")
+            answer = False
+            list_of_answers.append(answer)
+        place += 1
+    # ici je définis le nombre de réponses possible
+    number_of_questions = []
+    for y in range (0, len(questionnaire)):
+        b = len(questionnaire[y][1])
+        number_of_questions.append(b)
     if a == 0:
-        resultat_final(cotation1(list_of_answers), questions)
+        resultat_final(cotation1(list_of_answers), questionnaire)
     elif a == 1:
-        resultat_final(cotation2(list_of_answers), questions)
-        
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
+        resultat_final(cotation2(list_of_answers), questionnaire)
+    elif a == 2:
+        resultat_final(cotation3(list_of_answers, number_of_questions), questionnaire)
+Quizz()
