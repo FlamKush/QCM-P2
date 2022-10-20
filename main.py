@@ -1,6 +1,9 @@
 import time
-from menu import menu
+from termcolor import colored
+from menu import menu, sleep
 
+
+text = colored("GOOD ANSWER !!!", "green")
 # ce que j'ai rajouté
 def build_questionnaire(filename):
     """
@@ -58,7 +61,6 @@ def cotation1(list_of_answers):
             i+=0
     return i 
 
-
 def cotation2(list_of_answers):
     i = 0
     for answer in list_of_answers:
@@ -83,12 +85,6 @@ def cotation3(list_of_answers, number_of_answers):
             i+=0
     return i
 
-    
-
-    
-
-
-
 def resultat_final(i, questions):
     lenght = len(questions)
     if i < lenght/2:
@@ -104,10 +100,9 @@ def resultat_final(i, questions):
         print(f"{i}/{lenght}")
         print("Parfait !")
         
-
 def random_QCM():
     import random
-    questions = build_questionnaire("QCM.txt")
+    questions = build_questionnaire("QCM2.txt")
     list_random = []
     aleatoire_choice = random.choice(questions)
     list_random.append(aleatoire_choice)
@@ -135,27 +130,47 @@ def Quizz():
         a = 1
     elif syst == "3":
         a = 2
+    sleep(0)
     print("Good luck !")
+    print("---------------------")
     questionnaire = random_QCM()
     # ici je stock toutes les questions
     number_of_questions = []
     for i in range(0, len(questionnaire)):
         h = questionnaire[i][0]
         number_of_questions.append(h)
-    list_of_answers = []
+
     place = 0
+    b = 0
     for i in number_of_questions:
-        question = input(i)
-        answer = questionnaire[place][1][0][0]
-        if question == answer:
-            print("Vous avez trouvé la bonne réponse !")
-            answer = True
+        katre = 1
+        print(i, "\n")
+        number_of_answers = []
+        for y in range(0, len(questionnaire[b][1])):
+            number_of_answers.append(questionnaire[place][1][y][0])
+        for z in number_of_answers:
+            print(str(katre)+":", z)
+            katre +=1
+        list_of_answers = []
+        w = int(input("Answer ==> "))
+        question = number_of_answers[w - 1]
+        answer = 0
+        for j in questionnaire[place]:
+            for l in range(len(questionnaire[place])):
+                if j[l][0] == question:
+                    answer = j[l][1]
+        if answer == True:
+            sleep(1)
+            print(text)
+            print("--------------------------------------------------------------------")
             list_of_answers.append(answer)
         else:
-            print("Ceci n'est pas la bonne réponse, il vous faut étudier plus !")
-            answer = False
+            sleep(0.75)
+            print(colored("Ceci n'est pas la bonne réponse, il vous faut étudier plus !", "red"))
+            print("--------------------------------------------------------------------")
             list_of_answers.append(answer)
         place += 1
+        b +=1
     # ici je définis le nombre de réponses possible
     number_of_questions = []
     for y in range (0, len(questionnaire)):
