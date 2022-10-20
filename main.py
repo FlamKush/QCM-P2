@@ -1,9 +1,9 @@
 import time
 from termcolor import colored
-from menu import menu, sleep
+from menu import color, menu, sleep
 
 
-text = colored("GOOD ANSWER !!!", "green")
+
 # ce que j'ai rajouté
 def build_questionnaire(filename):
     """
@@ -161,12 +161,12 @@ def Quizz():
                     answer = j[l][1]
         if answer == True:
             sleep(1)
-            print(text)
+            color("IT'S RIGHT !!!!", "green")
             print("--------------------------------------------------------------------")
             list_of_answers.append(answer)
         else:
             sleep(0.75)
-            print(colored("Ceci n'est pas la bonne réponse, il vous faut étudier plus !", "red"))
+            color("WRONG !!!!", "red")
             print("--------------------------------------------------------------------")
             list_of_answers.append(answer)
         place += 1

@@ -1,4 +1,5 @@
 import time
+from termcolor import colored
 
 def sleep(t):
     return time.sleep(t)
@@ -34,3 +35,6 @@ def cotation_presentation():
     print("You gain a point when its correct and when its false...")
     sleep(0)
     print("You lose a point !")
+
+def color(text, color):
+    return print(colored(text, color, attrs=['bold', 'blink', "reverse"]))
