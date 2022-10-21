@@ -15,13 +15,13 @@ A|Physique et Chimie|V
 A|Physiologie et Médecine|V
 A|Littérature, Paix et Economie|V
 A|Mathématique|X|
-A|Toutes les réponses précédentes|X
+A|Toutes les réponses|X
 
 Q|Galilée est un savant Italien qui a:
 A|Développé le téléscope|V
 A|Découvert quatre satellites de Jupiter|V
 A|Découvert que le mouvement d'un pendule produit une mesure de temps régulière|V
-A|Toutes les réponses précédentes|V
+A|Toutes les réponses|V
 
 Q|L'exposition aux rayons du soleil est bon pour la santé parce que:
 A|Les rayons ultraviolets activent la transformation de cholestérol en vitamine D|V

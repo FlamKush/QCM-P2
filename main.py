@@ -1,6 +1,6 @@
-import time
 from termcolor import colored
 from menu import color, menu, sleep
+import random
 
 
 
@@ -100,9 +100,8 @@ def resultat_final(i, questions):
         print(f"{i}/{lenght}")
         print("Parfait !")
         
-def random_QCM():
-    import random
-    questions = build_questionnaire("QCM2.txt")
+def random_QCM(g):
+    questions = build_questionnaire(f"{g}")
     list_random = []
     aleatoire_choice = random.choice(questions)
     list_random.append(aleatoire_choice)
@@ -121,6 +120,7 @@ def random_QCM():
     return list_random
 
 def Quizz():
+    g = input("Insérez le nom du fichier qui contient vos questions : \n ==>")
     menu()
     print("Wich cotation system you want to choose ? classic = 1, negative = 2, 3 ?")
     syst = input("==> ")
@@ -133,7 +133,7 @@ def Quizz():
     sleep(0)
     print("Good luck !")
     print("---------------------")
-    questionnaire = random_QCM()
+    questionnaire = random_QCM(g)
     # ici je stock toutes les questions
     number_of_questions = []
     for i in range(0, len(questionnaire)):
@@ -142,32 +142,32 @@ def Quizz():
 
     place = 0
     b = 0
+    list_of_answers = []
     for i in number_of_questions:
         katre = 1
         print(i, "\n")
         number_of_answers = []
         for y in range(0, len(questionnaire[b][1])):
             number_of_answers.append(questionnaire[place][1][y][0])
+        random.shuffle(number_of_answers)
         for z in number_of_answers:
             print(str(katre)+":", z)
             katre +=1
-        list_of_answers = []
         w = int(input("Answer ==> "))
         question = number_of_answers[w - 1]
         answer = 0
-        for j in questionnaire[place]:
-            for l in range(len(questionnaire[place])):
-                if j[l][0] == question:
-                    answer = j[l][1]
+        for j in questionnaire[place][1]:
+                if j[0] == question:
+                    answer = j[1]
         if answer == True:
             sleep(1)
             color("IT'S RIGHT !!!!", "green")
-            print("--------------------------------------------------------------------")
+            print("-----------------------------------------------------------------------------")
             list_of_answers.append(answer)
         else:
             sleep(0.75)
             color("WRONG !!!!", "red")
-            print("--------------------------------------------------------------------")
+            print("-----------------------------------------------------------------------------")
             list_of_answers.append(answer)
         place += 1
         b +=1
