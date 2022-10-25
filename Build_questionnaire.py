@@ -44,4 +44,3 @@ def build_questionnaire(filename):
         questions.append([wording, choices])
     print(questions) 
     
-build_questionnaire("QCM.txt")

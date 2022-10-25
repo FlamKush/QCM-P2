@@ -50,7 +50,10 @@ def build_questionnaire(filename):
         questions.append([wording, choices])
     return questions
     
-def cotation1(list_of_answers):
+def cotation1(list_of_answers): 
+    #cotation 1 classique : 
+    # pré : nombre de réponses vrai 
+    # post : renvoie la cotation classique finale
     i = 0
     for answer in list_of_answers:
         if answer == True:
@@ -61,7 +64,10 @@ def cotation1(list_of_answers):
             i+=0
     return i 
 
-def cotation2(list_of_answers):
+def cotation2(list_of_answers): 
+    #cotation à point négative : 
+    # pré : nombre de réponse vrai (+1) et nombre de réponse fausse (-1)
+    # post : renvoie la cotation à point negative finale
     i = 0
     for answer in list_of_answers:
         if answer == True:
@@ -72,9 +78,12 @@ def cotation2(list_of_answers):
             i+=0
     return i
     
-def cotation3(list_of_answers, number_of_answers):
+def cotation3(list_of_answers, number_of_answers, number_of_things):
+    #cotation pondérée : 
+    # pré : nombre de réponse vrai (+1) et nombre de réponse fausse (- l'esperence )
     # on calcule l'esperance
-    esperancex = -(1/(len(number_of_answers) - 1)) 
+    # post : renvoie la cotation à point negative pondéré finale
+    esperancex = -(1/(len(number_of_things) - 1)) 
     i = 0
     for answer in list_of_answers:
         if answer == True:
@@ -86,6 +95,9 @@ def cotation3(list_of_answers, number_of_answers):
     return i
 
 def resultat_final(i, questions):
+    # resultat final :
+    # pré : cotation final 
+    # post : renvoie une appréciation selon la cotation
     lenght = len(questions)
     if i < lenght/2:
         print(f"{i}/{lenght}")
@@ -101,6 +113,9 @@ def resultat_final(i, questions):
         print("Parfait !")
         
 def random_QCM(g):
+    # rendre le QCM aléatoire :
+    # pré : document txt 
+    # post : renvoie les choix aléatoires dans une liste
     questions = build_questionnaire(f"{g}")
     list_random = []
     aleatoire_choice = random.choice(questions)
@@ -120,66 +135,138 @@ def random_QCM(g):
     return list_random
 
 def Quizz():
-    g = input("Insérez le nom du fichier qui contient vos questions : \n ==>")
-    menu()
-    print("Wich cotation system you want to choose ? classic = 1, negative = 2, 3 ?")
-    syst = input("==> ")
-    if syst == "1":
-        a = 0
-    elif syst == "2":
-        a = 1
-    elif syst == "3":
-        a = 2
-    sleep(0)
-    print("Good luck !")
-    print("---------------------")
-    questionnaire = random_QCM(g)
-    # ici je stock toutes les questions
-    number_of_questions = []
-    for i in range(0, len(questionnaire)):
-        h = questionnaire[i][0]
-        number_of_questions.append(h)
+    run = True
+    while run:
+        g = input("Insérez le nom du fichier qui contient vos questions : \n ==>")
+        menu()
+        print("Wich cotation system you want to choose ? classic = 1, negative = 2, 3 ?")
+        syst = input("==> ")
+        if syst == "1":
+            a = 0
+        elif syst == "2":
+            a = 1
+        elif syst == "3":
+            a = 2
+        sleep(0)
+        print("Good luck !")
+        print("---------------------")
+        questionnaire = random_QCM(g)
+        
+        # ici je stock toutes les questions
+        
+        number_of_questions = []
+        number_of_things = []
+        for i in range(0, len(questionnaire)):
+            h = questionnaire[i][0]
+            number_of_questions.append(h)
 
-    place = 0
-    b = 0
-    list_of_answers = []
-    for i in number_of_questions:
-        katre = 1
-        print(i, "\n")
-        number_of_answers = []
-        for y in range(0, len(questionnaire[b][1])):
-            number_of_answers.append(questionnaire[place][1][y][0])
-        random.shuffle(number_of_answers)
-        for z in number_of_answers:
-            print(str(katre)+":", z)
-            katre +=1
-        w = int(input("Answer ==> "))
-        question = number_of_answers[w - 1]
-        answer = 0
-        for j in questionnaire[place][1]:
-                if j[0] == question:
-                    answer = j[1]
-        if answer == True:
-            sleep(1)
-            color("IT'S RIGHT !!!!", "green")
-            print("-----------------------------------------------------------------------------")
-            list_of_answers.append(answer)
-        else:
-            sleep(0.75)
-            color("WRONG !!!!", "red")
-            print("-----------------------------------------------------------------------------")
-            list_of_answers.append(answer)
-        place += 1
-        b +=1
-    # ici je définis le nombre de réponses possible
-    number_of_questions = []
-    for y in range (0, len(questionnaire)):
-        b = len(questionnaire[y][1])
-        number_of_questions.append(b)
-    if a == 0:
-        resultat_final(cotation1(list_of_answers), questionnaire)
-    elif a == 1:
-        resultat_final(cotation2(list_of_answers), questionnaire)
-    elif a == 2:
-        resultat_final(cotation3(list_of_answers, number_of_questions), questionnaire)
+        place = 0
+        b = 0
+        x = 0
+        list_of_answers = []
+        for i in number_of_questions:
+            if_true = []
+            for v in questionnaire[x][1]:
+                if v[1] == True:
+                    if_true.append("True")
+            x += 1
+            katre = 1
+            print(i, "\n")
+            number_of_answers = []
+            if len(if_true) == 1:
+                for y in range(0, len(questionnaire[b][1])):
+                    number_of_answers.append(questionnaire[place][1][y][0])
+                    number_of_things.append(questionnaire[place][1][y][0])
+            elif len(if_true) != 1:
+                check_list = []
+                for y in range(0, len(questionnaire[b][1])):
+                    number_of_answers.append(questionnaire[place][1][y][0])
+                for y in range(0, len(questionnaire[b][1])):
+                    check_list.append(questionnaire[place][1][y][0])
+                taille = len(check_list) - len(if_true) +1
+                while len(number_of_things) < taille:
+                    number_of_things.append("a")
+    
+            random.shuffle(number_of_answers)
+            for z in number_of_answers:
+                print(str(katre)+":", z)
+                katre += 1
+            
+            if len(if_true) == 1:
+                w = int(input("Answer ==> "))
+                question = number_of_answers[w - 1]
+                answer = 0
+                for j in questionnaire[place][1]:
+                        if j[0] == question:
+                            answer = j[1]
+                if answer == True:
+                    sleep(1)
+                    color("IT'S RIGHT !!!!", "green")
+                    print("-----------------------------------------------------------------------------")
+                    list_of_answers.append(answer)
+                else:
+                    sleep(0.75)
+                    color("WRONG !!!!", "red")
+                    print("-----------------------------------------------------------------------------")
+                    list_of_answers.append(answer)
+                place += 1
+                b +=1
+            elif len(if_true) != 1:
+                s = input("Answer ==> ")
+                s = list(s)
+                # donc si la taille des réponses données = la taille des true
+                if len(s) == len(if_true):
+                    #on check pour chacune de nos réponses
+                    list_if_true = []
+                    for i in s:
+                        i = int(i)
+                        question = number_of_answers[i - 1]
+                        answer = 0
+                        for j in questionnaire[place][1]:
+                            if j[0] == question:
+                                answer = j[1]
+                        if answer == True:
+                            list_if_true.append(answer)
+                    if len(list_if_true) == len(if_true):
+                        answer = True
+                        sleep(1)
+                        color("IT'S RIGHT !!!!", "green")
+                        print("-----------------------------------------------------------------------------")
+                        list_of_answers.append(answer)
+                    else:
+                        answer = False
+                        sleep(0.75)
+                        color("WRONG !!!!", "red")
+                        print("-----------------------------------------------------------------------------")
+                        list_of_answers.append(answer)
+                elif len(s) != len(if_true):
+                    answer = False
+                    sleep(0.75)
+                    color("WRONG !!!!", "red")
+                    print("-----------------------------------------------------------------------------")
+                    list_of_answers.append(answer)
+
+                place += 1
+                b += 1
+        # ici je définis le nombre de réponses possible
+        number_of_questions = []
+        for y in range (0, len(questionnaire)):
+            b = len(questionnaire[y][1])
+            number_of_questions.append(b)
+        if a == 0:
+            resultat_final(cotation1(list_of_answers), questionnaire)
+        elif a == 1:
+            resultat_final(cotation2(list_of_answers), questionnaire)
+        elif a == 2:
+            resultat_final(cotation3(list_of_answers, number_of_questions, number_of_things), questionnaire)
+        print("Try again ? y/n")
+        retry = input("==> ")
+
+        if retry.lower() == "y":
+            run = True  
+        elif retry.lower() == "n":
+            print("Thank you and ciao")
+            run = False
+            break
+
 Quizz()
